@@ -1,0 +1,71 @@
+
+<BaseMDNavigationItem>:
+
+    MDNavigationItemIcon:
+        icon: root.icon
+
+    MDNavigationItemLabel:
+        text: root.text
+
+
+<BaseScreen>
+    MDBoxLayout:
+        orientation: "vertical"
+        MDLabel:
+            text: root.name
+            halign: "center"
+
+        MDButton:
+            style: "outlined"
+            on_release: root.parent.current = 'Solar Calc'
+            pos_hint: {"center_x": 0.5}
+
+
+            MDButtonText:
+                text: "previous screen"
+                # theme_text_color: [0,0,0,1]
+
+
+
+
+MDBoxLayout:
+    orientation: "vertical"
+    md_bg_color: self.theme_cls.backgroundColor
+
+    MDScreenManager:
+        id: screen_manager
+
+        # BaseScreen:
+        #     name: "input"
+        InputScreen:
+            name: 'Solar Calc'
+
+        BaseScreen:
+            name: "Shop"
+        
+        BaseScreen:
+            name: "Location"
+
+
+        OutputScreen:
+            name: 'output'
+
+    MDNavigationBar:
+        on_switch_tabs: app.on_switch_tabs(*args)
+
+        BaseMDNavigationItem
+            icon: "calculator"
+            text: "Solar Calc"
+
+            active: True
+
+        BaseMDNavigationItem
+            icon: "cart"
+            text: "Shop"
+
+
+
+        BaseMDNavigationItem
+            icon: "map"
+            text: "Location"
+        

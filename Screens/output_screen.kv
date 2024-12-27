@@ -1,0 +1,67 @@
+<OutputScreen>:
+    name: "output"
+
+    MDBoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(10)
+        md_bg_color: (1,1,1,1)
+
+        MDBoxLayout:
+            orientation: "vertical"
+            # md_bg_color: (1,0,0,1)
+            MDButton:
+                style: "outlined"
+                on_release: root.go_back()
+                pos_hint: {"center_x": 0.9}
+
+
+                MDButtonText:
+                    text: "Back"
+
+
+        MDLabel:
+            text: "Solar System Output"
+            # font_style: "H4"
+            halign: "center"
+            size_hint_y: None
+            height: self.texture_size[1]
+
+        MDLabel:
+            id: inverter_size
+            text: "Inverter Size: N/A"
+            # font_style: "Subtitle1"
+            halign: "center"
+
+        MDLabel:
+            id: battery_count
+            text: "Number of Batteries: N/A"
+            # font_style: "Subtitle1"
+            halign: "center"
+
+        MDLabel:
+            id: panel_count
+            text: "Number of Panels: N/A"
+            # font_style: "Subtitle1"
+            halign: "center"
+
+        MDLabel:
+            id: charger_controller
+            text: "Charger Controller Rating: N/A"
+            # font_style: "Subtitle1"
+            halign: "center"
+
+        MDLabel:
+            id: battery_setup
+            text: "Battery Bank Setup: N/A"
+            # font_style: "Subtitle1"
+            halign: "center"
+
+        MDLabel:
+            id: system_voltage
+            text: "Advised System Voltage: N/A"
+            # font_style: "Subtitle1"
+            halign: "center"
+
+
+

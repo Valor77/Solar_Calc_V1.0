@@ -1,0 +1,69 @@
+
+<InputScreen>:
+    # name: "input"
+    name: self.name
+    
+    MDBoxLayout:
+        orientation: "vertical"
+        padding: dp(20)
+        spacing: dp(10)
+        md_bg_color: [1,1,1,1]
+
+        MDLabel:
+            text: "Solar System Input"
+            # font_style: "H4"
+            halign: "center"
+            size_hint_y: None
+            height: self.texture_size[1]
+
+        MDTextField:
+            id: estimated_load
+            hint_text_color: [0,0,0,1]
+            hint_text: "Enter Estimated Load (W)"
+            mode: "outlined"
+            input_filter: "float"
+            helper_text: "Load in watts (e.g., 1500)"
+            helper_text_mode: "on_focus"
+            helper_text_color: [0,0,0,1]
+
+        MDTextField:
+            id: backup_hours
+            hint_text: "Enter Required Backup Hours"
+            mode: "outlined"
+            input_filter: "float"
+            helper_text: "Duration in hours (e.g., 6)"
+            helper_text_mode: "on_focus"
+
+        MDTextField:
+            id: peak_sun_hours
+            hint_text: "Enter Peak Sun Hours (default: 5)"
+            mode: "outlined"
+            input_filter: "float"
+            text: "5"
+            helper_text: "Sun hours in your area (e.g., 4.5)"
+            helper_text_mode: "on_focus"
+
+        MDTextField:
+            id: panel_efficiency
+            hint_text: "Enter Panel Efficiency (%)"
+            mode: "outlined"
+            input_filter: "float"
+            helper_text: "Efficiency as a percentage (e.g., 85)"
+            helper_text_mode: "on_focus"
+        MDButton:
+            style: "outlined"
+            on_release: root.calculate()
+            pos_hint: {"center_x": 0.5}
+
+
+            MDButtonText:
+                text: "Calculate"
+                # theme_text_color: [0,0,0,1]
+
+
+
+
+
+
+
+
