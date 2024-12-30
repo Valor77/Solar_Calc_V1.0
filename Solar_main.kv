@@ -11,20 +11,28 @@
 <BaseScreen>
     MDBoxLayout:
         orientation: "vertical"
-        MDLabel:
-            text: root.name
-            halign: "center"
+        padding: dp(20)
 
         MDButton:
-            style: "outlined"
-            on_release: root.parent.current = 'Solar Calc'
-            pos_hint: {"center_x": 0.5}
+            style: "filled"
+            pos_hint: {"center_x": .95}
+            on_release: root.parent.current = 'Home'
 
+            MDButtonIcon:
+                # x: text.x - (self.width + dp(10))
+                icon: "home"
 
             MDButtonText:
-                text: "previous screen"
-                # theme_text_color: [0,0,0,1]
+                id: text
 
+        MDLabel:
+            text: root.name
+            
+
+            halign: "center"
+            md_bg_color: (1,0,0,1)
+                    
+                    
 
 
 
@@ -37,8 +45,13 @@ MDBoxLayout:
 
         # BaseScreen:
         #     name: "input"
+
+        BaseScreen:
+            name: 'Home'
+
         InputScreen:
             name: 'Solar Calc'
+        
 
         BaseScreen:
             name: "Shop"
@@ -54,17 +67,20 @@ MDBoxLayout:
         on_switch_tabs: app.on_switch_tabs(*args)
 
         BaseMDNavigationItem
+            icon: "home"
+            text: "Home"
+            active: True
+
+        BaseMDNavigationItem
             icon: "calculator"
             text: "Solar Calc"
 
-            active: True
+            # active: True
 
         BaseMDNavigationItem
             icon: "cart"
             text: "Shop"
-
-
-
+       
         BaseMDNavigationItem
             icon: "map"
             text: "Location"

@@ -1,19 +1,23 @@
 from kivy.lang import Builder
 from kivy.properties import StringProperty
 import os
+from kivy.clock import Clock
 
 from kivymd.app import MDApp
 from kivymd.uix.navigationbar import MDNavigationBar, MDNavigationItem
 from kivymd.uix.screen import MDScreen
 
 from kivymd.uix.screenmanager import MDScreenManager
+from Screens.home_screen import HomeScreen
 from Screens.input_screen import InputScreen
 from Screens.output_screen import OutputScreen
+
 
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.button import MDExtendedFabButton
 from kivy.clock import Clock
 # MDTextField(hint_text_color)
+
 
 class BaseMDNavigationItem(MDNavigationItem):
     icon = StringProperty()
@@ -31,7 +35,7 @@ class BaseScreen(MDScreen):
 Builder.load_file("Screens/input_screen.kv")
 Builder.load_file("Screens/output_screen.kv")
     
-class Example(MDApp):
+class Kingsley(MDApp):
     def on_switch_tabs(
         self,
         bar: MDNavigationBar,
@@ -45,7 +49,7 @@ class Example(MDApp):
     def build(self):
 
         def semi_func(dt):
-            self.root.ids.screen_manager.current = 'Solar Calc'
+            self.root.ids.screen_manager.current = 'Home'
         Clock.schedule_once(semi_func)
         
         return Builder.load_file("Solar_main.kv")
@@ -54,32 +58,21 @@ class SolarCalculatorApp(MDApp):
     
     def build(self):
         sm = MDScreenManager()
+        sm.add_widget(HomeScreen(name="home"))
         sm.add_widget(InputScreen(name="input"))
         sm.add_widget(OutputScreen(name="output"))
-        sm.current = 'input'
+        sm.current = 'home'
         # print(sm.children, sm.current)
         # print(sm.children[0].children)
         # sm = MDScreenManager()
+        # Clock.schedule_once(lambda dt: setattr(sm, 'current', 'home'),.1)
         return sm
 
-    # trying to display files..
-    # def build(self):
 
-    #     current_dir = os.path.dirname(__file__)
-    #     screen1_kv =os.path.join(current_dir, 'Screens', 'input_screen.kv')
-    #     screen2_kv =os.path.join(current_dir, 'Screens', 'output_screen.kv')
-
-    #     Builder.load_file(screen1_kv)
-    #     Builder.load_file(screen2_kv)
-
-    # def build(self):
-    #     sm = MDScreenManager()
-    #     sm.add_widget(InputScreen(name="input"))
-    #     sm.add_widget(OutputScreen(name="output"))
         
     #     return sm
 
 if __name__ == "__main__":
     # SolarCalculatorApp().run()
 
-    Example().run()
+    Kingsley().run()

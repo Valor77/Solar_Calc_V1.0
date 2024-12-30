@@ -14,6 +14,17 @@ class InputScreen(MDScreen):
     #     box_layout.add_widget(label)
        
     #     self.add_widget(box_layout)
+    def on_size(self, *args):
+        print(self.size)
+
+        if self.size[0] <= 600:
+            self.ids.input_parent_box_layout.padding = [5,5,5,5]
+            self.ids.text_field_box_layout.padding = [5,5,5,5]
+            self.ids.input_home_button.padding = [5,5,5,5]
+        else:
+            self.ids.input_parent_box_layout.padding = [20,5,20,5]
+            self.ids.text_field_box_layout.padding = [5,30,5,30]
+            self.ids.input_home_button.padding = [20,5,20,5]
 
     def check_float(self, val):
         if val != '' and isinstance(val, str):
@@ -34,6 +45,7 @@ class InputScreen(MDScreen):
             estimated_load = self.check_float(self.ids.estimated_load.text)
             backup_hours = self.check_float(self.ids.backup_hours.text)
             peak_sun_hours = self.check_float(self.ids.peak_sun_hours.text)
+            rating_of_panels = self.check_float(self.ids.rating_of_panels.text)
             panel_efficiency = self.check_float(self.ids.panel_efficiency.text)
             values_ch = [estimated_load, backup_hours, peak_sun_hours, panel_efficiency]
 
@@ -45,6 +57,7 @@ class InputScreen(MDScreen):
             # Validate inputs
             if not (1 <= panel_efficiency <= 99):
                 self.ids.panel_efficiency.text = ''
+                self.ids.rating_of_panels.text = ''
                 self.ids.panel_efficiency.helper_text = 'Panel Efficiency must be between 1 and 99 '
                 self.ids.panel_efficiency.helper_text_color = (1,0,0,1)
                 return
@@ -59,9 +72,9 @@ class InputScreen(MDScreen):
             battery_count = round(battery_capacity / 200)  # Assume 200Ah batteries
 
             panel_output = (estimated_load / peak_sun_hours) * (100 / panel_efficiency)
-            panel_count = round(panel_output / 300)  # Assume 300W panels
+            panel_count = round(panel_output / rating_of_panels)  
 
-            charger_rating = panel_count * 300 / system_voltage  # Charger rating in Amps
+            charger_rating = panel_count * rating_of_panels / system_voltage  # Charger rating in Amps
 
             battery_setup = "Series" if battery_count > 1 else "Parallel"
 
