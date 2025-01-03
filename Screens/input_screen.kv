@@ -320,6 +320,16 @@
                                 MDButtonText:
                                     text: "Auto Generate values"
                                     # theme_text_color: [0,0,0,1]
+                            
+                            MDButton:
+                                style: "elevated"
+                                on_release: root.reset_fields()
+                                pos_hint: {"center_x": 0.5}
+                                shadow_color: [0,0,1,.4]
+
+                                MDButtonText:
+                                    text: "Reset Fields"
+                                    # theme_text_color: [0,0,0,1]
 
 
 

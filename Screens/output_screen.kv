@@ -1,4 +1,3 @@
-
 <MDCardium@MDBoxLayout>:
     label_name: self.label_name or ''
     text: self.text or ''
@@ -27,33 +26,59 @@
 
     MDBoxLayout:
         orientation: "vertical"
-        padding: dp(20)
+        # padding: dp(20)
         spacing: dp(10)
         md_bg_color: (1,1,1,1)
 
-        MDBoxLayout:
-            orientation: "vertical"
-            size_hint_y: .2
-            # md_bg_color: (1,0,0,1)
-            MDButton:
-                style: "outlined"
-                on_release: root.go_back()
-                pos_hint: {"center_x": 0.9}
+# -------------------------------------------------------
 
+        MDTopAppBar:
 
-                MDButtonText:
-                    text: "Back"
-        
-
-
-            MDLabel:
-                text: "Solar System Output"
-                # font_style: "H4"
-                halign: "center"
-                # size_hint_y: None
-                height: self.texture_size[1]
+            type: "small"
+            size_hint_x: 1
+            # size_hint_y: 1
+            # pos_hint: {"center_x": .5, "center_y": .5}
+            theme_bg_color: "Custom"
+            md_bg_color: (1,1,1,1)
             
+
+            MDTopAppBarLeadingButtonContainer:
+
+                MDActionTopAppBarButton:
+                    icon: "arrow-left"
+                    # icon_color: 1,1,1,1
+
+                    on_release: 
+                        root.go_back()
+
+                MDActionTopAppBarButton:
+                    icon: "menu"
+                    # icon_color: 1,1,1,1
+                    on_release: app.toggle_nav_drawer()
+
+            MDTopAppBarTitle:
+                text: "Results"
+                # text_color: 1,1,1,1
+
+            MDTopAppBarTrailingButtonContainer:
+
+                MDActionTopAppBarButton:
+                    icon: "file"
+                    on_release: app.save_results()
+                    # icon_color: 1,1,1,1
+
+                MDActionTopAppBarButton:
+                    icon: "calendar"
+                    # icon_color: 1,1,1,1
+
+
+                MDActionTopAppBarButton:
+                    icon: "dots-vertical"
+                    # icon_color: 1,1,1,1
+# -------------------------------------------------------
+
         MDBoxLayout:
+            id: output_screen_layout
             orientation: "vertical"
             size_hint_y: .8
             # size_hint_y: None
@@ -218,42 +243,6 @@
                         # MDLabel:
                         #     text: "N/A"
                         #     halign: "left"
-
-                    # MDLabel:
-                    #     id: inverter_size
-                    #     text: "Inverter Size: N/A"
-                    #     # font_style: "Subtitle1"
-                    #     halign: "center"
-
-                    # MDLabel:
-                    #     id: battery_count
-                    #     text: "Number of Batteries: N/A"
-                    #     # font_style: "Subtitle1"
-                    #     halign: "center"
-
-                    # MDLabel:
-                    #     id: panel_count
-                    #     text: "Number of Panels: N/A"
-                    #     # font_style: "Subtitle1"
-                    #     halign: "center"
-
-                    # MDLabel:
-                    #     id: charger_controller
-                    #     text: "Charger Controller Rating: N/A"
-                    #     # font_style: "Subtitle1"
-                    #     halign: "center"
-
-                    # MDLabel:
-                    #     id: battery_setup
-                    #     text: "Battery Bank Setup: N/A"
-                    #     # font_style: "Subtitle1"
-                    #     halign: "center"
-
-                    # MDLabel:
-                    #     id: system_voltage
-                    #     text: "Advised System Voltage: N/A"
-                    #     # font_style: "Subtitle1"
-                    #     halign: "center"
 
 
 

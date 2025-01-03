@@ -70,6 +70,7 @@ class InputScreen(MDScreen):
     
     def set_item(self, text_item):
         self.ids.battery_type.text = text_item
+        self.ids.battery_type_text.text = text_item
         self.ids.battery_type_text.text_color = (0,0,1,1)
         self.menu.dismiss()
 
@@ -304,6 +305,26 @@ class InputScreen(MDScreen):
             # field.helper_text = ''
             field.error = False
 
+    def reset_fields(self):
+        self.ids.system_voltage.text = ''
+        self.ids.system_voltage_text.text = 'Select System Voltage'
+
+        self.ids.estimated_load.text = ''
+        self.ids.backup_hours.text = ''
+        self.ids.peak_sun_hours.text = ''
+        self.ids.rating_of_panels.text = ''
+        self.ids.panel_efficiency.text = ''
+        self.ids.battery_amps.text = ''
+        self.ids.inverter_efficiency.text = ''
+
+        self.ids.battery_type.text = ''
+        self.ids.battery_type_text.text = 'Select Battery Type'
+
+        self.ids.system_voltage_text.text_color = (0,0,0,.71)
+        self.ids.battery_type_text.text_color = (0,0,0,.71)
+
+        self.ids.loading_spinner.active = False
+
     def get_all_fields(self):
         fields = [self.ids.system_voltage, self.ids.estimated_load, self.ids.backup_hours, self.ids.peak_sun_hours, self.ids.rating_of_panels,
                   self.ids.panel_efficiency, self.ids.battery_amps, self.ids.inverter_efficiency, self.ids.battery_type]
@@ -314,7 +335,10 @@ class InputScreen(MDScreen):
 
         # for field in fields[:-1]:
         #     field.text = str()
-        self.ids.system_voltage.text = str(random.choice([12, 24, 48]))
+        random_system_voltage = str(random.choice([12, 24, 48]))
+        self.ids.system_voltage.text = random_system_voltage
+        self.ids.system_voltage_text.text = random_system_voltage
+        self.ids.system_voltage_text.text_color = (0,0,1,.41)
         self.ids.estimated_load.text = str(random.randint(1, 10000))
         self.ids.backup_hours.text = str(random.randint(1, 24))         
         self.ids.peak_sun_hours.text = str(random.randint(1, 24))
@@ -322,8 +346,10 @@ class InputScreen(MDScreen):
         self.ids.panel_efficiency.text = str(random.randint(1, 99))
         self.ids.battery_amps.text = str(random.randint(1, 1000))
         self.ids.inverter_efficiency.text = str(random.randint(1, 100))
-        self.ids.battery_type.text = ['Dry Cell', 'Wet Cell', 'Lithium-ion'][random.randint(0, 2)]
-        self.ids.battery_type_text.text_color = (0,0,0,1)
+        option_text = random.choice(["Dry Cell", "Wet Cell", "Lithium-ion"]) # ['Dry Cell', 'Wet Cell', 'Lithium-ion'][random.randint(0, 2)]
+        self.ids.battery_type.text = option_text
+        self.ids.battery_type_text.text = option_text
+        self.ids.battery_type_text.text_color = (0,0,1,.41)
         self.ids.loading_spinner.active = False
         
 

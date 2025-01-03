@@ -6,7 +6,53 @@
         spacing: dp(10)
         md_bg_color: (1,1,1,1)
 
-        # MDBoxLayout:
+MDTopAppBar:
+
+    type: "small"
+    size_hint_x: 1
+    # size_hint_y: 1
+    # pos_hint: {"center_x": .5, "center_y": .5}
+    theme_bg_color: "Custom"
+    md_bg_color: (1,1,1,1)
+    
+
+    MDTopAppBarLeadingButtonContainer:
+
+        MDActionTopAppBarButton:
+            icon: "arrow-left"
+            # icon_color: 1,1,1,1
+
+            on_release: 
+                root.go_back()
+
+        MDActionTopAppBarButton:
+            icon: "menu"
+            # icon_color: 1,1,1,1
+            on_release: app.toggle_nav_drawer()
+
+    MDTopAppBarTitle:
+        text: "Calculation Results"
+        # text_color: 1,1,1,1
+
+    MDTopAppBarTrailingButtonContainer:
+
+        MDActionTopAppBarButton:
+            icon: "attachment"
+            # icon_color: 1,1,1,1
+
+        MDActionTopAppBarButton:
+            icon: "calendar"
+            # icon_color: 1,1,1,1
+
+
+        MDActionTopAppBarButton:
+            icon: "dots-vertical"
+                # icon_color: 1,1,1,1
+
+
+
+
+         # MDBoxLayout:
         #     orientation: "vertical"
         #     # md_bg_color: (1,0,0,1)
         #     MDButton:

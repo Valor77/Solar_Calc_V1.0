@@ -1,6 +1,5 @@
 <SavedDataScreen>:
     name: 'saved_data'
-    id: saved_data_screen
 
     MDBoxLayout:
         orientation: "vertical"
@@ -20,7 +19,7 @@
             MDTopAppBarLeadingButtonContainer:
 
                 MDActionTopAppBarButton:
-                    icon: "arrow-left"
+                    icon: "home"
                     # icon_color: 1,1,1,1
 
                     on_release: 
@@ -47,30 +46,14 @@
                     # icon_color: 1,1,1,1
 
 
-
-
-        # Rip this buttom, he was a real G
-        # MDTopAppBar:
-        #     md_bg_color: (0,0,1,.4)
-        #     # title: "Saved Data"
-        #     # left_action_items: [["menu", lambda x: app.root.ids.nav_drawer.set_state("open")]]
-        #     MDTopAppBarTitle:
-        #         text: "Data Ware House" 
-
-        #     MDButton:
-        #         pos_hint: {"center_x": .1}
-        #         on_release: 
-        #             app.root.ids.nav_screen_manager.current = 'blank_screen' 
-        #             app.root.ids.screen_manager.current = 'Home' 
-
-        #         MDButtonText:
-        #             text: ""
-        #         MDButtonIcon:   
-        #             icon:"arrow-left"
-
-
         ScrollView:
-            MDList:
-                id: saved_data_list
+            # MDList:
+            id: saved_files_list
+            MDBoxLayout:
+                id: saved_files_list
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+                padding: dp(10)
                 # Add widgets to display saved data here
 

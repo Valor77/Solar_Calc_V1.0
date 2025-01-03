@@ -9,22 +9,75 @@
 
 
 <BaseScreen>
+    # MDFloatLayout:
+    #     radius:[25,0,0,25]
     MDBoxLayout:
         orientation: "vertical"
-        padding: dp(20)
+        height_y: .8
+        padding: [20,20,20,2]
         md_bg_color: (0,0,1,.4)
+                # md_bg_color: [0,0,1,.4]
+# --------------------------------------------------------------------------------
 
-        MDButton:
-            style: "filled"
-            pos_hint: {"center_x": .95}
-            on_release: root.parent.current = 'Home'
+        MDTopAppBar:
 
-            MDButtonIcon:
-                # x: text.x - (self.width + dp(10))
-                icon: "home"
-                # on_press: app.slander()
-            MDButtonText:
-                id: text
+            type: "small"
+            # padding: [0,5,0,5]
+            # size_hint_x: 1
+            # size_hint_y: 1
+            # pos_hint: {"center_x": .5, "center_y": .5}
+            theme_bg_color: "Custom"
+            md_bg_color: (1,1,1,1)
+            
+
+            MDTopAppBarLeadingButtonContainer:
+
+                MDActionTopAppBarButton:
+                    icon: "home"
+                    # icon_color: 1,1,1,1
+
+                    on_release: 
+                        app.go_home()
+
+                MDActionTopAppBarButton:
+                    icon: "menu"
+                    # icon_color: 1,1,1,1
+                    on_release: app.toggle_nav_drawer()
+
+            MDTopAppBarTitle:
+                text: "King"
+                # pos_hint: {"center_x": .5}
+                # text_color: 1,1,1,1
+
+            MDTopAppBarTrailingButtonContainer:
+
+                # MDActionTopAppBarButton:
+                #     icon: "attachment"
+                #     # icon_color: 1,1,1,1
+
+                MDActionTopAppBarButton:
+                    icon: "calendar"
+                    # icon_color: 1,1,1,1
+
+
+                MDActionTopAppBarButton:
+                    icon: "dots-vertical"
+                    # icon_color: 1,1,1,1
+
+
+# --------------------------------------------------------------------------------
+
+        # MDButton:
+        #     style: "filled"
+        #     pos_hint: {"center_x": .95}
+        #     on_release: root.parent.current = 'Home'
+
+        #     MDButtonIcon:
+        #         # x: text.x - (self.width + dp(10))
+        #         icon: "home"
+        #         # on_press: app.slander()
+        #     MDButtonText:
+        #         id: text
 
         MDLabel:
             text: root.name
@@ -72,8 +125,8 @@ MDScreenManager:
                     name: 'output'
 
             MDNavigationBar:
+                id: navigation_bar
                 on_switch_tabs: app.on_switch_tabs(*args)
-                id: nav_bar
                 md_bg_color: [1,0,0,1]
                 
 
@@ -99,21 +152,20 @@ MDScreenManager:
                 BaseMDNavigationItem
                     icon: "map"
                     text: "Location"
-                    # md_bg_color: [0,0,1,.4]
+            # MDButton:
+            #     pos_hint: {"center_x": 0.1, "center_y": .95}
+            #     on_release: nav_drawer.set_state("toggle")
+            #     radius: dp(8), dp(16), dp(2), dp(8)
 
-            MDButton:
-                pos_hint: {"center_x": 0.1, "center_y": .95}
-                on_release: nav_drawer.set_state("toggle")
-                radius: dp(8), dp(16), dp(2), dp(8)
-
-                MDButtonText:
-                    text: ""
-                MDButtonIcon:
-                    icon: "menu"
+            #     MDButtonText:
+            #         text: ""
+            #     MDButtonIcon:
+            #         icon: "menu"
                     
 
 
             MDNavigationLayout:
+                pos_hint: {"center_x": .5, "center_y": .5}
 
                 MDScreenManager:
                     id: nav_screen_manager
@@ -123,6 +175,7 @@ MDScreenManager:
 
                     SavedDataScreen:
                         name: 'saved_data'
+                        id: saved_data_screen
 
 
                 MDNavigationDrawer:
