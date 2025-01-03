@@ -1,189 +1,335 @@
-
 <InputScreen>:
     # name: "input"
     name: self.name
+    # a chill way to structure and access an id
+    # input_parent_box_layout: _input_parent_box_layout
+    # cow_count: 0
 
 
     MDBoxLayout:
-        id:input_parent_box_layout
         orientation: "vertical"
-        padding: [dp(20), dp(5), dp(30), dp(5)]
-
-
-        MDButton:
-            style: "filled"
-            pos_hint: {"center_x": .95}
-            on_release: root.parent.current = 'Home'
-            id: input_home_button
-
-            MDButtonIcon:
-                # x: text.x - (self.width + dp(10))
-                icon: "home"
-
-            MDButtonText:
-                id: text
+        padding: dp(20)
+        spacing: dp(10)
+        md_bg_color: (0,0,1,.4)
 
 
 
-        ScrollView:
-            MDBoxLayout:
-                id: text_field_box_layout
+        MDBoxLayout:
+        
+            orientation: "vertical"
+            size_hint_y: None
+            height: self.minimum_height
+            padding: [dp(5), dp(15), dp(5), dp(0)]
+            # pos_hint: {"center_x": .5, "center_y": .9}
+            pos_hint: {"x": 0, "y": .9}
+            # md_bg_color: (1,0,0,1)    
 
-                padding: [dp(30), dp(5), dp(30), dp(5)]
-                spacing: dp(17)
+            MDLabel:
+                id: input_screen_label
+                text: "Solar System Input"
+                text_color: [1,1,1,1]
+                # font_style: "H4"
+                halign: "center"
                 size_hint_y: None
-                height: self.minimum_height
-                md_bg_color: [1,1,1,1]
+                height: self.texture_size[1]
+
+
+        MDFloatLayout:
+            id: input_parent_box_layout
+            md_bg_color: [0,0,1,0.4]
+            padding: [dp(20), dp(5), dp(30), dp(5)]
+            size: root.size
+
+            MDBoxLayout:
                 orientation: "vertical"
-                # Text field for estimated load
-            
-                MDLabel:
-                    text: "Solar System Input"
-                    # font_style: "H4"
-                    halign: "center"
-                    size_hint_y: None
-                    height: self.texture_size[1]
+                # pos_hint: {"center_x": .5, "center_y": .5}
+                pos_hint: {"x": 0, "y": 0}
+                # size_hint_y: .9
+                padding: [dp(1), dp(1), dp(0), dp(50)]
 
-                MDTextField:
-                    mode: "filled"
-                    id: estimated_load
-                    on_text_validate: backup_hours.focus = True 
-                    # font_size: "8sp"
-                
-                    MDTextFieldLeadingIcon:
-                        icon: "weight"
-                        theme_icon_color: "Custom"
-                        icon_color_fucus: "Orange"
-
-                    MDTextFieldTrailingIcon:
-                        icon: "information"
-
-                    MDTextFieldHintText:
-                        text: "Enter Estimated Load (W)"
-
-                    MDTextFieldHelperText:
-                        text: "Load in watts (e.g., 1500)"
-                        mode: "persistent"
-                        # font_size: "8sp"
-
-
-                    MDTextFieldMaxLengthText:
-                        max_text_length: 10
-
-                # Text field for backup hours
-                MDTextField:
-                    mode: "filled"
-                    id:backup_hours
-                    on_text_validate: peak_sun_hours.focus = True
+                ScrollView:
+                    id:scroll_input_text_field
                     
-                    MDTextFieldLeadingIcon:
-                        icon: "weight-lifter"
-                        theme_icon_color: "Custom"
-                        icon_color_fucus: "Orange"
 
-                    MDTextFieldTrailingIcon:
-                        icon: "information"
+                    MDBoxLayout:
+                        id: text_field_box_layout
 
-                    MDTextFieldHintText:
-                        text: "Enter Backup Hours"
+                        # padding: [dp(30), dp(5), dp(30), dp(50)]
+                        spacing: dp(17)
+                        size_hint_y: None
+                        height: self.minimum_height
+                        md_bg_color: [1,1,1,1]
+                        orientation: "vertical"
+                        # Text field for estimated load
+                    
+                        MDDropDownItem:
+                            id: system_voltage
+                            pos_hint: {"center_y": .8}
+                            text: ''
+                            on_release: root.voltage_drop_menu(self)
 
-                    MDTextFieldHelperText:
-                        text: "In Hours (e.g., 24)"
-                        mode: "persistent"
-
-                    MDTextFieldMaxLengthText:
-                        max_text_length: 10
-
-                # Text field for peak sun hours
-                MDTextField:
-                    mode: "filled"
-                    id: peak_sun_hours  
-                    on_text_validate: rating_of_panels.focus = True
+                            MDDropDownItemText:
+                                id: system_voltage_text
+                                text: "Select System Voltage"
 
 
-                    MDTextFieldLeadingIcon:
-                        icon: "solar-power"
-                        theme_icon_color: "Custom"
-                        icon_color_fucus: "Orange"
-
-                    MDTextFieldTrailingIcon:
-                        icon: "information"
-
-                    MDTextFieldHintText:
-                        text: "Enter Peak Sun Hours"
+                        MDTextField:
+                            mode: "filled"
+                            id: estimated_load
+                            on_text_validate: root.focus_next_text_field(self)
+                            # font_size: "8sp"
                         
+                            MDTextFieldLeadingIcon:
+                                icon: "weight"
+                                theme_icon_color: "Custom"
+                                icon_color_fucus: "Orange"
 
-                    MDTextFieldHelperText:
-                        text: "Sun hours in your area (e.g., 5)"
-                        mode: "persistent"
+                            MDTextFieldTrailingIcon:
+                                # icon: "information"
 
-                    MDTextFieldMaxLengthText:
-                        max_text_length: 2
+                            MDTextFieldHintText:
+                                text: "Enter Estimated Load (W)"
 
-                # Text field for rating of panels
-                MDTextField:
-                    mode: "filled"
-                    id: rating_of_panels
-                    on_text_validate: panel_efficiency.focus = True
-
-                    MDTextFieldLeadingIcon:
-                        icon: "solar-panel"
-                        theme_icon_color: "Custom"
-                        icon_color_fucus: "Orange"
-
-                    MDTextFieldTrailingIcon:
-                        icon: "information"
-
-                    MDTextFieldHintText:
-                        text: "Enter Rating of Panels (W)"
-
-                    MDTextFieldHelperText:
-                        text: "Panel rating in watts (e.g., 250)"
-                        mode: "persistent"
-
-                    MDTextFieldMaxLengthText:
-                        max_text_length: 3
-
-                # Text field for panel efficiency
-                MDTextField:
-                    mode: "filled"
-                    id: panel_efficiency
-                    on_text_validate: estimated_load.focus = True   
-
-                    MDTextFieldLeadingIcon:
-                        icon: "upload-network"
-                        theme_icon_color: "Custom"
-                        icon_color_fucus: "Orange"
-
-                    MDTextFieldTrailingIcon:
-                        icon: "information"
-
-                    MDTextFieldHintText:
-                        text: "Enter Panel Efficiency (%)"
-
-                    MDTextFieldHelperText:
-                        text: "Efficiency as a percentage (e.g., 85)"
-                        mode: "persistent"
-
-                    MDTextFieldMaxLengthText:
-                        max_text_length: 2
+                            MDTextFieldHelperText:
+                                text: "Load in watts (e.g., 1500)"
+                                mode: "on_focus"
+                                # font_size: "8sp"
 
 
-                MDButton:
-                    style: "outlined"
-                    on_release: root.calculate()
-                    pos_hint: {"center_x": 0.5}
+                            MDTextFieldMaxLengthText:
+                                max_text_length: 10
+
+                        # Text field for backup hours
+                        MDTextField:
+                            mode: "filled"
+                            id:backup_hours
+                            on_text_validate: root.focus_next_text_field(self)
+
+                            MDTextFieldLeadingIcon:
+                                icon: "weight-lifter"
+                                theme_icon_color: "Custom"
+                                icon_color_fucus: "Orange"
+
+                            MDTextFieldTrailingIcon:
+                                # icon: "information"
+
+                            MDTextFieldHintText:
+                                text: "Enter Backup Hours"
+
+                            MDTextFieldHelperText:
+                                text: "In Hours (e.g., 24)"
+                                mode: "on_focus"
+
+                            MDTextFieldMaxLengthText:
+                                max_text_length: 10
+
+                        # Text field for peak sun hours
+                        MDTextField:
+                            mode: "filled"
+                            id: peak_sun_hours  
+                            on_text_validate: root.focus_next_text_field(self)
 
 
-                    MDButtonText:
-                        text: "Calculate"
-                        # theme_text_color: [0,0,0,1]
+                            MDTextFieldLeadingIcon:
+                                icon: "solar-power"
+                                theme_icon_color: "Custom"
+                                icon_color_fucus: "Orange"
+
+                            MDTextFieldTrailingIcon:
+                                # icon: "information"
+
+                            MDTextFieldHintText:
+                                text: "Enter Peak Sun Hours"
+                                
+
+                            MDTextFieldHelperText:
+                                text: "Sun hours in your area (e.g., 5)"
+                                mode: "on_focus"
+
+                            MDTextFieldMaxLengthText:
+                                max_text_length: 2
+
+                        # Text field for rating of panels
+                        MDTextField:
+                            mode: "filled"
+                            id: rating_of_panels
+                            on_text_validate: root.focus_next_text_field(self)
+
+                            MDTextFieldLeadingIcon:
+                                icon: "solar-panel"
+                                theme_icon_color: "Custom"
+                                icon_color_fucus: "Orange"
+
+                            MDTextFieldTrailingIcon:
+                                # icon: "information"
+
+                            MDTextFieldHintText:
+                                text: "Enter Rating of Panels (W)"
+
+                            MDTextFieldHelperText:
+                                text: "Panel rating in watts (e.g., 250)"
+                                mode: "on_focus"
+
+                            MDTextFieldMaxLengthText:
+                                max_text_length: 3
+
+                        # Text field for panel efficiency
+                        MDTextField:
+                            mode: "filled"
+                            id: panel_efficiency
+                            on_text_validate: root.focus_next_text_field(self)  
+
+                            MDTextFieldLeadingIcon:
+                                icon: "run"
+                                theme_icon_color: "Custom"
+                                icon_color_fucus: "Blue"
+
+                            MDTextFieldTrailingIcon:
+                                # icon: "information"
+
+                            MDTextFieldHintText:
+                                text: "Enter Panel Efficiency (%)"
+
+                            MDTextFieldHelperText:
+                                text: "Efficiency as a percentage (e.g., 85)"
+                                mode: "on_focus"
+
+                            MDTextFieldMaxLengthText:
+                                max_text_length: 2
+
+                        # newwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+
+                        MDTextField:
+                            mode: "filled"
+                            id: battery_amps
+                            on_text_validate: root.focus_next_text_field(self) 
+                            # font_size: "8sp"
+                        
+                            MDTextFieldLeadingIcon:
+                                icon: "battery"
+                                theme_icon_color: "Custom"
+                                icon_color_fucus: "Orange"
+
+                            MDTextFieldTrailingIcon:
+                                # icon: "information"
+
+                            MDTextFieldHintText:
+                                text: "Enter Battery Rating (Ah)"
+
+                            MDTextFieldHelperText:
+                                text: "Battery amps in amp-hours (e.g., 220)"
+                                mode: "on_focus"
+                                # font_size: "8sp"
+
+
+                            MDTextFieldMaxLengthText:
+                                max_text_length: 3  
+
+                        MDTextField:
+                            mode: "filled"
+                            id: inverter_efficiency
+                            on_text_validate: root.focus_next_text_field(self) 
+                            # font_size: "8sp"
+                        
+                            MDTextFieldLeadingIcon:
+                                icon: "run-fast"
+                                theme_icon_color: "Custom"
+                                icon_color_fucus: "Orange"
+
+                            MDTextFieldTrailingIcon:
+                                # icon: "information"
+
+                            MDTextFieldHintText:
+                                text: "Enter Inverter Efficiency (%)"
+
+                            MDTextFieldHelperText:
+                                text: "Efficiency as a percentage (e.g., 85)"
+                                mode: "on_focus"
+                                # font_size: "8sp"
+
+
+                            MDTextFieldMaxLengthText:
+                                max_text_length: 2  
+
+                        # MDDropDownItem:
+                        #     # mode: "filled"
+                        #     id: battery_type
+                        #     on_focus: root.menu.open()
+                        #     # on_text_validate: backup_hours.focus = True 
+                        MDDropDownItem:
+                            id: battery_type
+                            pos_hint: {"center_x": .6, "center_y": .5}
+                            text: ''
+                            # on_release: app.children[0].children[1].drop_menu(self)
+                            # on_release: app.input_screen.drop_menu(self)
+                            on_release: root.drop_menu(self)
+
+                            # on_release: root.menu.open()
+
+                            MDDropDownItemText:
+                                id: battery_type_text
+                                text: "Select Battery Type"
+
+                                
+
+                        
+                            # MDTextFieldLeadingIcon:
+                            #     icon: "weight"
+                            #     theme_icon_color: "Custom"
+                            #     icon_color_fucus: "Orange"
+
+                            # MDTextFieldTrailingIcon:
+                            #     # icon: "information"
+
+                            # MDTextFieldHintText:
+                            #     text: ""
+
+                            # MDTextFieldHelperText:
+                            #     text: "Select Battery Type"
+                            #     mode: "on_focus"
+                            #     # font_size: "8sp"                           
+                    
+                        MDBoxLayout:
+                            id: input_button_box_layout_worthless_nigga
+                            orientation: "horizontal"
+                            size_hint_y: .21
+                            padding: [dp(20), dp(5), dp(30), dp(5)]
+                            spacing: dp(10)
+                            # md_bg_color: [1,0,0,1]
+                            
+                            MDButton:
+                                style: "elevated"
+                                on_release: root.calculate()
+                                pos_hint: {"center_x": .51}
+                                radius: dp(8), dp(16), dp(2), dp(8)
+                                
+                            #     shadow_color: [0,0,1,.4]
+
+
+                                MDButtonText:
+                                    text: "Calculate"
+                                    # theme_text_color: [0,0,0,1]
+
+                            MDButton:
+                                style: "elevated"
+                                on_release: root.auto_generate()
+                                pos_hint: {"center_x": 0.5}
+                                shadow_color: [0,0,1,.4]
+
+
+                                MDButtonText:
+                                    text: "Auto Generate values"
+                                    # theme_text_color: [0,0,0,1]
 
 
 
-
-
-
-
-
-
+            MDCircularProgressIndicator:
+                id: loading_spinner
+                size_hint: None, None
+                size: "48dp", "48dp"
+                # pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                pos_hint: {"x": 0.5, "y": 0.5}
+                # x: ((root.width - self.width) / 2 )+ dp(200)
+                # y: ((root.height - self.height) / 2)+100
+                active: False  # Initially inactive
+                # determinate: False  # Switch to determinate mode

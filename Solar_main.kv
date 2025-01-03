@@ -12,6 +12,7 @@
     MDBoxLayout:
         orientation: "vertical"
         padding: dp(20)
+        md_bg_color: (0,0,1,.4)
 
         MDButton:
             style: "filled"
@@ -21,7 +22,7 @@
             MDButtonIcon:
                 # x: text.x - (self.width + dp(10))
                 icon: "home"
-
+                # on_press: app.slander()
             MDButtonText:
                 id: text
 
@@ -30,58 +31,141 @@
             
 
             halign: "center"
-            md_bg_color: (1,0,0,1)
+            md_bg_color: (1,1,1,1)
                     
                     
+MDScreenManager:
+    MDScreen:
+        md_bg_color: self.theme_cls.backgroundColor
 
 
 
-MDBoxLayout:
-    orientation: "vertical"
-    md_bg_color: self.theme_cls.backgroundColor
+        # MDBoxLayout:
+        MDFloatLayout:
+                        
+            # orientation: "vertical"
+            # # md_bg_color: [0,0,1,1]
+            # # md_bg_color: [0,0,1,.4]
+            # md_bg_color: self.theme_cls.backgroundColor
+            MDScreenManager:
+                md_bg_color: [0,0,1,.4]
+                id: screen_manager
 
-    MDScreenManager:
-        id: screen_manager
+                # BaseScreen:
+                #     name: "input"
 
-        # BaseScreen:
-        #     name: "input"
+                BaseScreen:
+                    name: 'Home'
 
-        BaseScreen:
-            name: 'Home'
+                InputScreen:
+                    name: 'Solar Calc'
+                
 
-        InputScreen:
-            name: 'Solar Calc'
-        
-
-        BaseScreen:
-            name: "Shop"
-        
-        BaseScreen:
-            name: "Location"
+                BaseScreen:
+                    name: "Shop"
+                
+                BaseScreen:
+                    name: "Location"
 
 
-        OutputScreen:
-            name: 'output'
+                OutputScreen:
+                    name: 'output'
 
-    MDNavigationBar:
-        on_switch_tabs: app.on_switch_tabs(*args)
+            MDNavigationBar:
+                on_switch_tabs: app.on_switch_tabs(*args)
+                id: nav_bar
+                md_bg_color: [1,0,0,1]
+                
 
-        BaseMDNavigationItem
-            icon: "home"
-            text: "Home"
-            active: True
 
-        BaseMDNavigationItem
-            icon: "calculator"
-            text: "Solar Calc"
+                BaseMDNavigationItem
+                    icon: "home"
+                    text: "Home"
+                    active: True
+                    # md_bg_color: [0,0,1,.4]
 
-            # active: True
+                BaseMDNavigationItem
+                    icon: "calculator"
+                    text: "Solar Calc"
+                    # md_bg_color: [0,0,1,.4]
 
-        BaseMDNavigationItem
-            icon: "cart"
-            text: "Shop"
-       
-        BaseMDNavigationItem
-            icon: "map"
-            text: "Location"
-        
+                    # active: True
+
+                BaseMDNavigationItem
+                    icon: "store"
+                    text: "Shop"
+                    # md_bg_color: [0,0,1,.4]
+            
+                BaseMDNavigationItem
+                    icon: "map"
+                    text: "Location"
+                    # md_bg_color: [0,0,1,.4]
+
+            MDButton:
+                pos_hint: {"center_x": 0.1, "center_y": .95}
+                on_release: nav_drawer.set_state("toggle")
+                radius: dp(8), dp(16), dp(2), dp(8)
+
+                MDButtonText:
+                    text: ""
+                MDButtonIcon:
+                    icon: "menu"
+                    
+
+
+            MDNavigationLayout:
+
+                MDScreenManager:
+                    id: nav_screen_manager
+
+                    MDScreen:
+                        name: "blank_screen"
+
+                    SavedDataScreen:
+                        name: 'saved_data'
+
+
+                MDNavigationDrawer:
+                    id: nav_drawer
+                    radius: 0, dp(16), dp(16), 0
+
+                    MDNavigationDrawerMenu:
+
+                        MDNavigationDrawerLabel:
+                            text: "Drawer Menu"
+
+                        MDNavigationDrawerItem:
+
+                            MDNavigationDrawerItemLeadingIcon:
+                                icon: "account"
+
+                            MDNavigationDrawerItemText:
+                                text: "profile"
+
+                            # MDNavigationDrawerItemTrailingText:
+                            #     text: "24"
+
+                        MDNavigationDrawerDivider:
+
+                    # second item
+
+                        MDNavigationDrawerItem:
+                            id: saved_data
+                            on_release:
+                                app.root.ids.nav_screen_manager.current = 'saved_data' 
+                                app.root.ids.nav_drawer.set_state("close")
+
+
+                            MDNavigationDrawerItemLeadingIcon:
+                                icon: "file"
+
+                            MDNavigationDrawerItemText:
+                                text: "Saved files"
+
+                            # MDNavigationDrawerItemTrailingText:
+                            #     text: "18"
+
+                        MDNavigationDrawerDivider:
+
+
+

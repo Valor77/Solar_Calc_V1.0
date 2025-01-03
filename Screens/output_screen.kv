@@ -1,3 +1,27 @@
+
+<MDCardium@MDBoxLayout>:
+    label_name: self.label_name or ''
+    text: self.text or ''
+    orientation: "vertical"
+    size_hint_y: None
+    height: self.minimum_height
+    # padding: self.padding or dp(10)
+    # hsl, rgb, hsv, hex, rgba, a, r, g, b, h, s, v, l, hsluv, lch, lab, xyz, yxy, hunterlab, cmy, cmyk, hwb, ncol, css, css_hex, css_rgb, css_rgba, css_hsl, css_hsluv, css_lch, css_lab, css_xyz, css_yxy, css_hunterlab, css_cmy, css_cmyk, css_hwb, css_ncol, css_hex_to_rgb, css_rgb_to_hex, css_rgb_to_rgba, css_rgba_to_rgb, css_hsl_to_rgb, css_rgb_to_hsl, css_hsl_to_hsluv, css_hsluv_to_hsl, css_hsl_to_lch, css_lch_to_hsl, css_lch_to_lab, css_lab_to_lch, css_lab_to_xyz, css_xyz_to_lab, css_xyz_to_yxy, css_yxy_to_xyz, css_yxy_to_hunterlab, css_hunterlab_to_yxy, css_hunterlab_to_cmy, css_cmy_to_hunterlab, css_cmy_to_cmyk, css_cmyk_to_cmy, css_cmyk_to_rgb, css_rgb_to_cmyk, css_hwb_to_rgb, css_rgb_to_hwb, css_ncol_to_rgb, css_rgb_to_ncol, css_hex_to_ncol, css_ncol_to_hex, css_hex_to_hsl, css_hsl_to_hex, css_hex_to_hsluv, css_hsluv_to_hex, css_hex_to_lch, css_lch_to_hex, css_hex_to_lab, css_lab_to_hex, css_hex_to_xyz, css_xyz_to_hex, css_hex_to_yxy, css_yxy_to_hex, css_hex_to_hunterlab, css_hunterlab_to_hex, css_hex_to_cmy, css_cmy_to_hex, css_hex_to_cmyk, css_cmyk_to_hex, css_hex_to_hwb, css_hwb_to_hex, css_hex_to_ncol, css_ncol_to_hex, css_hex_to_rgba, css_rgba_to_hex, css_rgb_to_rgba, css_rgba_to_rgb, css_hsl_to_rgba, css_rgba_to_hsl, css_hsluv_to_rgba, css_rgba_to_hsluv, css_lch_to_rgba, css_rgba_to_lch, css_lab_to_rgba, css_rgba_to_lab,
+    MDLabel:
+        text: "[color=000000][b][size=38px]" + root.label_name + "[/size][/b][/color]: " + root.text
+        markup: True
+        # halign: "left"
+        size_hint: 1, None
+        height: self.texture_size[1]
+        md_bg_color: root.md_bg_color
+        padding: [2, 5, 0, 2] # root.padding
+        # pos_hint: {"center_x": 0.5}
+    MDDivider:
+        height: dp(1)
+        md_bg_color: (0,0,1,1)
+        # pos_hint: {"center_x": 0.5}
+        
+
 <OutputScreen>:
     name: "output"
 
@@ -9,6 +33,7 @@
 
         MDBoxLayout:
             orientation: "vertical"
+            size_hint_y: .2
             # md_bg_color: (1,0,0,1)
             MDButton:
                 style: "outlined"
@@ -18,50 +43,217 @@
 
                 MDButtonText:
                     text: "Back"
+        
 
 
-        MDLabel:
-            text: "Solar System Output"
-            # font_style: "H4"
-            halign: "center"
-            size_hint_y: None
-            height: self.texture_size[1]
+            MDLabel:
+                text: "Solar System Output"
+                # font_style: "H4"
+                halign: "center"
+                # size_hint_y: None
+                height: self.texture_size[1]
+            
+        MDBoxLayout:
+            orientation: "vertical"
+            size_hint_y: .8
+            # size_hint_y: None
+            height: dp(1)
+            md_bg_color: (0,0,1,1)
 
-        MDLabel:
-            id: inverter_size
-            text: "Inverter Size: N/A"
-            # font_style: "Subtitle1"
-            halign: "center"
 
-        MDLabel:
-            id: battery_count
-            text: "Number of Batteries: N/A"
-            # font_style: "Subtitle1"
-            halign: "center"
+            # Scroll view for the output
+            ScrollView:
+                MDBoxLayout:
+                    orientation: "vertical"
+                    padding: dp(10)
+                    spacing: dp(10)
+                    size_hint_y: None
+                    height: self.minimum_height
 
-        MDLabel:
-            id: panel_count
-            text: "Number of Panels: N/A"
-            # font_style: "Subtitle1"
-            halign: "center"
 
-        MDLabel:
-            id: charger_controller
-            text: "Charger Controller Rating: N/A"
-            # font_style: "Subtitle1"
-            halign: "center"
+                    MDCardium:
+                        id: inverter_size
+                        orientation: "vertical"
+                        padding:  dp(10)
+                        # size_hint_y: None
+                        # height: self.minimum_height
+                        md_bg_color: (0.9, 0.9, 0.9, 1)
+                        label_name: "Inverter Size"
+                        # text: "Inverter Size"
+                        # MDLabel:
+                        #     halign: "left"
+                        # MDLabel:
+                        #     id: inverter_size
+                        #     text: "N/A"
+                        #     halign: "left"   
+                    MDCardium:
+                        orientation: "vertical"
+                        padding: dp(10)
+                        size_hint_y: None
+                        height: self.minimum_height
+                        md_bg_color: (0.9, 0.9, 0.9, 1)
+                        label_name: "Number of Batteries"
+                        # text: "Number of Batteries"
+                        id: battery_count
+                        # MDLabel:
+                        #     text: "N/A"
+                        #     halign: "left"
+                    MDCardium:
+                        orientation: "vertical"
+                        padding: dp(10)
+                        size_hint_y: None
+                        height: self.minimum_height
+                        md_bg_color: (0.9, 0.9, 0.9, 1)
+                        # text: "Number of Panels"
+                        label_name: "Number of Panels"
+                        id: panel_count
+                        # MDLabel:
+                        #     text: "N/A"
+                        #     halign: "left"
+                    MDCardium:
+                        orientation: "vertical"
+                        padding: dp(10)
+                        size_hint_y: None
+                        height: self.minimum_height
+                        md_bg_color: (0.9, 0.9, 0.9, 1)
+                        label_name: "Charger Controller Rating"
+                        # text: "Charger Controller Rating"
+                        id: charger_controller
+                        # MDLabel:
+                        #     text: "N/A"
+                        #     halign: "left"
+                    MDCardium:
+                        orientation: "vertical"
+                        padding: dp(10)
+                        size_hint_y: None
+                        height: self.minimum_height
+                        md_bg_color: (0.9, 0.9, 0.9, 1)
+                        label_name: "Battery Bank Setup"
+                        # text: "Battery Bank Setup"
+                        id: battery_setup
+                        # MDLabel:
+                        #     text: "N/A"
+                        #     halign: "left"
+                    MDCardium:
+                        orientation: "vertical"
+                        padding: dp(10)
+                        size_hint_y: None
+                        height: self.minimum_height
+                        md_bg_color: (0.9, 0.9, 0.9, 1)
+                        label_name: "Advised System Voltage"
+                        # text: "Advised System Voltage"
+                        id: system_voltage
+                        # MDLabel:
+                        #     text: "N/A"
+                        #     halign: "left"
+                    MDCardium:
+                        orientation: "vertical"
+                        padding: dp(10)
+                        size_hint_y: None
+                        height: self.minimum_height
+                        md_bg_color: (0.9, 0.9, 0.9, 1)
+                        label_name: "Total Energy Demand"
+                        # text: "Total Energy Demand"
+                        id: total_energy_demand
+                        # MDLabel:
+                        #     text: "N/A"
+                        #     halign: "left"
+                    MDCardium:
+                        orientation: "vertical"
+                        padding: dp(10)
+                        size_hint_y: None
+                        height: self.minimum_height
+                        md_bg_color: (0.9, 0.9, 0.9, 1)
+                        label_name: "Battery Bank Energy Capacity"
+                        # text: "Battery Bank Energy Capacity"
+                        id: battery_bank_energy_capacity
+                        # MDLabel:
+                        #     text: "N/A"
+                        #     halign: "left"
+                    MDCardium:
+                        orientation: "vertical"
+                        padding: dp(10)
+                        size_hint_y: None
+                        height: self.minimum_height
+                        md_bg_color: (0.9, 0.9, 0.9, 1)
+                        label_name: "Daily Solar Energy Generation Needed"
+                        # text: "Daily Solar Energy Generation Needed"
+                        id: daily_solar_energy_generation_needed
+                        # MDLabel:
+                        #     text: "N/A"
+                        #     halign: "left"
+                    MDCardium:
+                        orientation: "vertical"
+                        padding: dp(10)
+                        size_hint_y: None
+                        height: self.minimum_height
+                        md_bg_color: (0.9, 0.9, 0.9, 1)
+                        label_name: "Solar Panel Array Power"
+                        # text: "Solar Panel Array Power"
+                        id: solar_panel_array_power
+                        # MDLabel:
+                        #     text: "N/A"
+                        #     halign: "left"
+                    MDCardium:
+                        orientation: "vertical"
+                        padding: dp(10)
+                        size_hint_y: None
+                        height: self.minimum_height
+                        md_bg_color: (0.9, 0.9, 0.9, 1)
+                        label_name: "Expected System Losses"
+                        # text: "Expected System Losses"
+                        id: expected_system_losses
+                        # MDLabel:
+                        #     text: "N/A"
+                        #     halign: "left"
+                    MDCardium:
+                        orientation: "vertical"
+                        padding: dp(10)
+                        size_hint_y: None
+                        height: self.minimum_height
+                        md_bg_color: (0.9, 0.9, 0.9, 1)
+                        label_name: "Maximum Load Capacity"
+                        # text: "Maximum Load Capacity"
+                        id: maximum_load_capacity
+                        # MDLabel:
+                        #     text: "N/A"
+                        #     halign: "left"
 
-        MDLabel:
-            id: battery_setup
-            text: "Battery Bank Setup: N/A"
-            # font_style: "Subtitle1"
-            halign: "center"
+                    # MDLabel:
+                    #     id: inverter_size
+                    #     text: "Inverter Size: N/A"
+                    #     # font_style: "Subtitle1"
+                    #     halign: "center"
 
-        MDLabel:
-            id: system_voltage
-            text: "Advised System Voltage: N/A"
-            # font_style: "Subtitle1"
-            halign: "center"
+                    # MDLabel:
+                    #     id: battery_count
+                    #     text: "Number of Batteries: N/A"
+                    #     # font_style: "Subtitle1"
+                    #     halign: "center"
+
+                    # MDLabel:
+                    #     id: panel_count
+                    #     text: "Number of Panels: N/A"
+                    #     # font_style: "Subtitle1"
+                    #     halign: "center"
+
+                    # MDLabel:
+                    #     id: charger_controller
+                    #     text: "Charger Controller Rating: N/A"
+                    #     # font_style: "Subtitle1"
+                    #     halign: "center"
+
+                    # MDLabel:
+                    #     id: battery_setup
+                    #     text: "Battery Bank Setup: N/A"
+                    #     # font_style: "Subtitle1"
+                    #     halign: "center"
+
+                    # MDLabel:
+                    #     id: system_voltage
+                    #     text: "Advised System Voltage: N/A"
+                    #     # font_style: "Subtitle1"
+                    #     halign: "center"
 
 
 
