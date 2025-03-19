@@ -124,6 +124,9 @@ MDScreenManager:
                 OutputScreen:
                     name: 'output'
 
+                ReportsScreen:
+                    name: "reports"
+
             MDNavigationBar:
                 id: navigation_bar
                 on_switch_tabs: app.on_switch_tabs(*args)
@@ -203,17 +206,19 @@ MDScreenManager:
                     # second item
 
                         MDNavigationDrawerItem:
-                            id: saved_data
+                            id: saved_reports_list
                             on_release:
-                                app.root.ids.nav_screen_manager.current = 'saved_data' 
-                                app.root.ids.nav_drawer.set_state("close")
+                                on_release: app.open_reports_screen()
+
+                                # app.root.ids.nav_screen_manager.current = 'saved_data' 
+                                # app.root.ids.nav_drawer.set_state("close")
 
 
                             MDNavigationDrawerItemLeadingIcon:
                                 icon: "file"
 
                             MDNavigationDrawerItemText:
-                                text: "Saved files"
+                                text: "Saved Reports"
 
                             # MDNavigationDrawerItemTrailingText:
                             #     text: "18"

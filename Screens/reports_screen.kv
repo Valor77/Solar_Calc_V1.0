@@ -1,0 +1,54 @@
+<ReportsScreen>:
+    name: "reports"
+
+    MDBoxLayout:
+        orientation: "vertical"
+        padding: [dp(5), dp(5), dp(5), dp(5)]
+        spacing: dp(10)
+        md_bg_color: (0, 0, 1, 1)
+        # height: dp(200)  # Reducing the height
+        # radius: [dp(10)]
+        
+        # MDTopAppBar:
+        #     title: "Saved Reports"
+        #     left_action_items: [["arrow-left", lambda x: root.go_back()]]  # Back button
+        #     elevation: 4
+
+        MDTopAppBar:
+            type: "small"
+            size_hint_x: 1
+            # size_hint_y: 1
+            # pos_hint: {"center_x": .5, "center_y": .5}
+            theme_bg_color: "Custom"
+            md_bg_color: (1,1,1,1)
+
+            MDTopAppBarLeadingButtonContainer:
+
+                MDActionTopAppBarButton:
+                    icon: "arrow-left"
+                    # icon_color: 1,1,1,1
+
+                    on_release:
+                        root.go_back()
+
+
+        # ScrollView:
+        #     MDBoxLayout:
+        #         orientation: "vertical"
+        #         id: saved_reports_list
+        #         size_hint_y: None
+        #         height: self.minimum_height
+        #         padding: [dp(5), dp(10), dp(5), dp(80)]
+        
+        
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            MDBoxLayout:
+                orientation: "vertical"
+                id: saved_reports_list
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(5)
+                padding: [dp(10), dp(10), dp(10), dp(75)] # Add widgets to display saved data here
