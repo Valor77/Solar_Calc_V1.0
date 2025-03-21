@@ -7,7 +7,7 @@
     # padding: self.padding or dp(10)
     # hsl, rgb, hsv, hex, rgba, a, r, g, b, h, s, v, l, hsluv, lch, lab, xyz, yxy, hunterlab, cmy, cmyk, hwb, ncol, css, css_hex, css_rgb, css_rgba, css_hsl, css_hsluv, css_lch, css_lab, css_xyz, css_yxy, css_hunterlab, css_cmy, css_cmyk, css_hwb, css_ncol, css_hex_to_rgb, css_rgb_to_hex, css_rgb_to_rgba, css_rgba_to_rgb, css_hsl_to_rgb, css_rgb_to_hsl, css_hsl_to_hsluv, css_hsluv_to_hsl, css_hsl_to_lch, css_lch_to_hsl, css_lch_to_lab, css_lab_to_lch, css_lab_to_xyz, css_xyz_to_lab, css_xyz_to_yxy, css_yxy_to_xyz, css_yxy_to_hunterlab, css_hunterlab_to_yxy, css_hunterlab_to_cmy, css_cmy_to_hunterlab, css_cmy_to_cmyk, css_cmyk_to_cmy, css_cmyk_to_rgb, css_rgb_to_cmyk, css_hwb_to_rgb, css_rgb_to_hwb, css_ncol_to_rgb, css_rgb_to_ncol, css_hex_to_ncol, css_ncol_to_hex, css_hex_to_hsl, css_hsl_to_hex, css_hex_to_hsluv, css_hsluv_to_hex, css_hex_to_lch, css_lch_to_hex, css_hex_to_lab, css_lab_to_hex, css_hex_to_xyz, css_xyz_to_hex, css_hex_to_yxy, css_yxy_to_hex, css_hex_to_hunterlab, css_hunterlab_to_hex, css_hex_to_cmy, css_cmy_to_hex, css_hex_to_cmyk, css_cmyk_to_hex, css_hex_to_hwb, css_hwb_to_hex, css_hex_to_ncol, css_ncol_to_hex, css_hex_to_rgba, css_rgba_to_hex, css_rgb_to_rgba, css_rgba_to_rgb, css_hsl_to_rgba, css_rgba_to_hsl, css_hsluv_to_rgba, css_rgba_to_hsluv, css_lch_to_rgba, css_rgba_to_lch, css_lab_to_rgba, css_rgba_to_lab,
     MDLabel:
-        text: "[color=000000][b][size=38px]" + root.label_name + "[/size][/b][/color]: " + root.text
+        text: "[color=000000][b][size=24px]" + root.label_name + "[/size][/b][/color]: " + root.text
         markup: True
         # halign: "left"
         size_hint: 1, None
@@ -88,12 +88,13 @@
 
             # Scroll view for the output
             ScrollView:
+                do_scroll_x: False  # Prevents horizontal scrolling (optional)
                 MDBoxLayout:
                     orientation: "vertical"
-                    padding: dp(10)
+                    padding: [dp(10), dp(10), dp(10), dp(100)]  # Uniform padding (left, top, right, bottom)
                     spacing: dp(10)
                     size_hint_y: None
-                    height: self.minimum_height
+                    adaptive_height: True  # Adjusts height dynamically
 
 
                     MDCardium:

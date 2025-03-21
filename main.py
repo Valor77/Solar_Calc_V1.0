@@ -231,6 +231,10 @@ class Kingsley(MDApp):
         pdf.ln(10)
 
         # Set normal font for report details
+        pdf.set_font("Arial", style='B', size=12)
+        pdf.cell(95, 10, "Parameter", 1, 0, 'C')
+        pdf.cell(95, 10, "Value", 1, 1, 'C')
+
         pdf.set_font("Arial", size=12)
 
         # Format the results with better display
@@ -241,13 +245,13 @@ class Kingsley(MDApp):
             if isinstance(value, (int, float)):
                 value = f"{value:,.2f}"  # Adds comma separation and rounds to 2 decimal places
 
-            pdf.cell(0, 10, f"{formatted_key}: {value}", ln=True)
+            # pdf.cell(0, 10, f"{formatted_key}: {value}", ln=True)
+
+            pdf.cell(95, 10, formatted_key, 1, 0, 'L')
+            pdf.cell(95, 10, str(value), 1, 1, 'L')
 
 
 
-        # # Write data to PDF
-        # for key, value in calculated_results.items():
-        #     pdf.cell(0, 10, f"{key}: {value}", ln=True)
 
         # Save PDF
         pdf.output(file_path)

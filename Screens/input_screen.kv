@@ -258,7 +258,7 @@
                         #     # on_text_validate: backup_hours.focus = True 
                         MDDropDownItem:
                             id: battery_type
-                            pos_hint: {"center_x": .6, "center_y": .5}
+                            pos_hint: {"center_x": .75, "center_y": .5}
                             text: ''
                             # on_release: app.children[0].children[1].drop_menu(self)
                             # on_release: app.input_screen.drop_menu(self)
@@ -268,7 +268,7 @@
 
                             MDDropDownItemText:
                                 id: battery_type_text
-                                text: "Select Battery Type"
+                                text: "Battery Type"
 
                                 
 
@@ -310,26 +310,26 @@
                                     text: "Calculate"
                                     # theme_text_color: [0,0,0,1]
 
-                            MDButton:
-                                style: "elevated"
-                                on_release: root.auto_generate()
-                                pos_hint: {"center_x": 0.5}
-                                shadow_color: [0,0,1,.4]
+                            # MDButton:
+                            #     style: "elevated"
+                            #     on_release: root.auto_generate()
+                            #     pos_hint: {"center_x": 0.5}
+                            #     shadow_color: [0,0,1,.4]
 
 
-                                MDButtonText:
-                                    text: "Auto Generate values"
-                                    # theme_text_color: [0,0,0,1]
+                            #     MDButtonText:
+                            #         text: "Auto Generate values"
+                            #         # theme_text_color: [0,0,0,1]
                             
-                            MDButton:
-                                style: "elevated"
-                                on_release: root.reset_fields()
-                                pos_hint: {"center_x": 0.5}
-                                shadow_color: [0,0,1,.4]
+                            # MDButton:
+                            #     style: "elevated"
+                            #     on_release: root.reset_fields()
+                            #     pos_hint: {"center_x": 0.5}
+                            #     shadow_color: [0,0,1,.4]
 
-                                MDButtonText:
-                                    text: "Reset Fields"
-                                    # theme_text_color: [0,0,0,1]
+                            #     MDButtonText:
+                            #         text: "Reset Fields"
+                            #         # theme_text_color: [0,0,0,1]
 
 
 

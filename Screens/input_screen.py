@@ -235,6 +235,52 @@ class InputScreen(MDScreen):
 
             
 
+            # Perform calculations
+            power_factor = 0.8  # Adjust as needed
+            inverter_size = ((estimated_load / (inverter_efficiency / 100)) / power_factor)/1000  # Convert to kW
+            # inverter_size = inverter_size_kva
+
+            # inverter_size = estimated_load * (1 / (inverter_efficiency / 100))
+
+            # Total energy storage required (Wh)
+            total_energy_storage = estimated_load * backup_hours / dod
+
+            # Assume battery voltage (e.g., 12V for lead-acid batteries)
+            battery_voltage = 12
+
+            # Number of batteries in series
+            batteries_in_series = system_voltage / battery_voltage
+
+            energy_capacity_per_string = battery_voltage * battery_amps  * batteries_in_series
+
+            # Number of parallel strings
+            parallel_strings = math.ceil(total_energy_storage / energy_capacity_per_string)
+
+            # Total number of batteries
+            battery_count = int(batteries_in_series * parallel_strings)
+            
+            total_energy_demand = estimated_load * backup_hours
+
+            # panel_output = (estimated_load / peak_sun_hours) * (panel_efficiency / 100)
+            # panel_count = round(panel_output / rating_of_panels)
+
+            panel_output = total_energy_demand / (peak_sun_hours * (panel_efficiency / 100))
+            panel_count = math.ceil(panel_output / rating_of_panels)  
+
+            charger_rating = panel_count * rating_of_panels / system_voltage  # Charger rating in Amps
+
+            battery_setup = f"{int(batteries_in_series)} in series, {int(parallel_strings)} in parallel"
+
+            # Additional Outputs
+
+            battery_bank_energy_capacity = battery_count * battery_amps * battery_voltage
+            daily_solar_energy_generation_needed = total_energy_demand / (panel_efficiency / 100)
+            solar_panel_array_power = panel_count * rating_of_panels
+            expected_system_losses = total_energy_demand - ((inverter_size * 1000) * inverter_efficiency / 100)
+            maximum_load_capacity = (inverter_size * 1000) * inverter_efficiency / 100
+
+
+
             # # Perform calculations
             # inverter_size = estimated_load * (1 / (inverter_efficiency / 100))
 
@@ -244,23 +290,27 @@ class InputScreen(MDScreen):
             # # Assume battery voltage (e.g., 12V for lead-acid batteries)
             # battery_voltage = 12
 
-            # # Number of batteries in series
-            # batteries_in_series = system_voltage / battery_voltage
+            # # Number of batteries in series (round up to ensure system voltage is met)
+            # batteries_in_series = math.ceil(system_voltage / battery_voltage)
 
-            # energy_capacity_per_string = battery_voltage * battery_amps  * batteries_in_series
+            # # Energy capacity per string
+            # energy_capacity_per_string = battery_voltage * battery_amps * batteries_in_series
 
-            # # Number of parallel strings
-            # parallel_strings = math.ceil(total_energy_storage / energy_capacity_per_string)
+            # # Number of parallel strings (round up to avoid shortages)
+            # parallel_strings = max(1, math.ceil(total_energy_storage / energy_capacity_per_string))
 
             # # Total number of batteries
-            # battery_count = int(batteries_in_series * parallel_strings)
+            # battery_count = batteries_in_series * parallel_strings  # No rounding needed since both values are integers
 
-            # panel_output = (estimated_load / peak_sun_hours) * (panel_efficiency / 100)
-            # panel_count = round(panel_output / rating_of_panels)  
+            # # Solar panel calculations (corrected)
+            # panel_output = (total_energy_storage / peak_sun_hours) * (1 / (panel_efficiency / 100))
+            # panel_count = math.ceil(panel_output / rating_of_panels)
 
-            # charger_rating = panel_count * rating_of_panels / system_voltage  # Charger rating in Amps
+            # # Charger rating (amps)
+            # charger_rating = (panel_count * rating_of_panels) / system_voltage  
 
-            # battery_setup = f"{int(batteries_in_series)} in series, {int(parallel_strings)} in parallel"
+            # # Battery setup string
+            # battery_setup = f"{batteries_in_series} in series, {parallel_strings} in parallel"
 
             # # Additional Outputs
             # total_energy_demand = estimated_load * backup_hours
@@ -272,59 +322,18 @@ class InputScreen(MDScreen):
 
 
 
-            # Perform calculations
-            inverter_size = estimated_load * (1 / (inverter_efficiency / 100))
-
-            # Total energy storage required (Wh)
-            total_energy_storage = estimated_load * backup_hours / dod
-
-            # Assume battery voltage (e.g., 12V for lead-acid batteries)
-            battery_voltage = 12
-
-            # Number of batteries in series (round up to ensure system voltage is met)
-            batteries_in_series = math.ceil(system_voltage / battery_voltage)
-
-            # Energy capacity per string
-            energy_capacity_per_string = battery_voltage * battery_amps * batteries_in_series
-
-            # Number of parallel strings (round up to avoid shortages)
-            parallel_strings = max(1, math.ceil(total_energy_storage / energy_capacity_per_string))
-
-            # Total number of batteries
-            battery_count = batteries_in_series * parallel_strings  # No rounding needed since both values are integers
-
-            # Solar panel calculations (corrected)
-            panel_output = (total_energy_storage / peak_sun_hours) * (1 / (panel_efficiency / 100))
-            panel_count = math.ceil(panel_output / rating_of_panels)
-
-            # Charger rating (amps)
-            charger_rating = (panel_count * rating_of_panels) / system_voltage  
-
-            # Battery setup string
-            battery_setup = f"{batteries_in_series} in series, {parallel_strings} in parallel"
-
-            # Additional Outputs
-            total_energy_demand = estimated_load * backup_hours
-            battery_bank_energy_capacity = battery_count * battery_amps * battery_voltage
-            daily_solar_energy_generation_needed = total_energy_demand / (panel_efficiency / 100)
-            solar_panel_array_power = panel_count * rating_of_panels
-            expected_system_losses = total_energy_demand - (inverter_size * inverter_efficiency / 100)
-            maximum_load_capacity = inverter_size * inverter_efficiency / 100
-
-
-
 
             # Get app instance
             app = MDApp.get_running_app()
 
             # Store results in a dictionary inside the app instance
             app.calculated_results = {
-                "inverter_size": f"{inverter_size:.2f} W",
-                "battery_count": f"{battery_count}",
-                "panel_count": f"{panel_count}",
-                "charger_controller": f"{charger_rating:.2f} A",
+                "inverter_size": f"{inverter_size:.2f} KVA",
+                "battery_count": f"{battery_count} Units",
+                "panel_count": f"{panel_count} Units",
+                "charger_controller": f"{charger_rating:.2f} Amps",
                 "battery_setup": f"{battery_setup}",
-                "system_voltage": f"{system_voltage}V",
+                "system_voltage": f"{system_voltage}Volts",
                 "total_energy_demand": f"{total_energy_demand:.2f} Wh",
                 "battery_bank_energy_capacity": f"{battery_bank_energy_capacity:.2f} Wh",
                 "daily_solar_energy_generation_needed": f"{daily_solar_energy_generation_needed:.2f} Wh/day",
@@ -350,23 +359,22 @@ class InputScreen(MDScreen):
 
 
 
-
-
-
             # Pass data to Output Screen
             result_screen = self.manager.get_screen("output")
-            result_screen.ids.inverter_size.text = f"{inverter_size:.2f} W"
-            result_screen.ids.battery_count.text = f"{battery_count}"
-            result_screen.ids.panel_count.text = f"{panel_count}"
-            result_screen.ids.charger_controller.text = f"{charger_rating:.2f} A"
+            result_screen.ids.inverter_size.text = f"{inverter_size:.2f} KWA"
+            result_screen.ids.battery_count.text = f"{battery_count} Units"
+            result_screen.ids.panel_count.text = f"{panel_count} Units"
+            result_screen.ids.charger_controller.text = f"{charger_rating:.2f} Amps"
             result_screen.ids.battery_setup.text = f"{battery_setup}"
-            result_screen.ids.system_voltage.text = f"{system_voltage}V"
+            result_screen.ids.system_voltage.text = f"{system_voltage}Volts"
             result_screen.ids.total_energy_demand.text = f"{total_energy_demand:.2f} Wh"
             result_screen.ids.battery_bank_energy_capacity.text = f"{battery_bank_energy_capacity:.2f} Wh"
             result_screen.ids.daily_solar_energy_generation_needed.text = f"{daily_solar_energy_generation_needed:.2f} Wh/day"
             result_screen.ids.solar_panel_array_power.text = f"{solar_panel_array_power:.2f} W"
             result_screen.ids.expected_system_losses.text = f"{expected_system_losses:.2f} Wh"
             result_screen.ids.maximum_load_capacity.text = f"{maximum_load_capacity:.2f} W"
+
+            
 
             # Hide loading indicator and show success message
             self.ids.loading_spinner.active = False
@@ -391,52 +399,52 @@ class InputScreen(MDScreen):
             # field.helper_text = ''
             field.error = False
 
-    def reset_fields(self):
-        self.ids.system_voltage.text = ''
-        self.ids.system_voltage_text.text = 'Select System Voltage'
+    # def reset_fields(self):
+    #     self.ids.system_voltage.text = ''
+    #     self.ids.system_voltage_text.text = 'Select System Voltage'
 
-        self.ids.estimated_load.text = ''
-        self.ids.backup_hours.text = ''
-        self.ids.peak_sun_hours.text = ''
-        self.ids.rating_of_panels.text = ''
-        self.ids.panel_efficiency.text = ''
-        self.ids.battery_amps.text = ''
-        self.ids.inverter_efficiency.text = ''
+    #     self.ids.estimated_load.text = ''
+    #     self.ids.backup_hours.text = ''
+    #     self.ids.peak_sun_hours.text = ''
+    #     self.ids.rating_of_panels.text = ''
+    #     self.ids.panel_efficiency.text = ''
+    #     self.ids.battery_amps.text = ''
+    #     self.ids.inverter_efficiency.text = ''
 
-        self.ids.battery_type.text = ''
-        self.ids.battery_type_text.text = 'Select Battery Type'
+    #     self.ids.battery_type.text = ''
+    #     self.ids.battery_type_text.text = 'Select Battery Type'
 
-        self.ids.system_voltage_text.text_color = (0,0,0,.71)
-        self.ids.battery_type_text.text_color = (0,0,0,.71)
+    #     self.ids.system_voltage_text.text_color = (0,0,0,.71)
+    #     self.ids.battery_type_text.text_color = (0,0,0,.71)
 
-        self.ids.loading_spinner.active = False
+    #     self.ids.loading_spinner.active = False
 
     def get_all_fields(self):
         fields = [self.ids.system_voltage, self.ids.estimated_load, self.ids.backup_hours, self.ids.peak_sun_hours, self.ids.rating_of_panels,
                   self.ids.panel_efficiency, self.ids.battery_amps, self.ids.inverter_efficiency, self.ids.battery_type]
         return fields
     
-    def auto_generate(self):
-        # fields = self.get_all_fields()
+    # def auto_generate(self):
+    #     # fields = self.get_all_fields()
 
-        # for field in fields[:-1]:
-        #     field.text = str()
-        random_system_voltage = str(random.choice([12, 24, 48]))
-        self.ids.system_voltage.text = random_system_voltage
-        self.ids.system_voltage_text.text = random_system_voltage
-        self.ids.system_voltage_text.text_color = (0,0,1,.41)
-        self.ids.estimated_load.text = str(random.randint(1, 10000))
-        self.ids.backup_hours.text = str(random.randint(1, 24))         
-        self.ids.peak_sun_hours.text = str(random.randint(1, 24))
-        self.ids.rating_of_panels.text = str(random.randint(1, 1000))
-        self.ids.panel_efficiency.text = str(random.randint(1, 99))
-        self.ids.battery_amps.text = str(random.randint(1, 1000))
-        self.ids.inverter_efficiency.text = str(random.randint(1, 100))
-        option_text = random.choice(["Dry Cell", "Wet Cell", "Lithium-ion"]) # ['Dry Cell', 'Wet Cell', 'Lithium-ion'][random.randint(0, 2)]
-        self.ids.battery_type.text = option_text
-        self.ids.battery_type_text.text = option_text
-        self.ids.battery_type_text.text_color = (0,0,1,.41)
-        self.ids.loading_spinner.active = False
+    #     # for field in fields[:-1]:
+    #     #     field.text = str()
+    #     random_system_voltage = str(random.choice([12, 24, 48]))
+    #     self.ids.system_voltage.text = random_system_voltage
+    #     self.ids.system_voltage_text.text = random_system_voltage
+    #     self.ids.system_voltage_text.text_color = (0,0,1,.41)
+    #     self.ids.estimated_load.text = str(random.randint(1, 10000))
+    #     self.ids.backup_hours.text = str(random.randint(1, 24))         
+    #     self.ids.peak_sun_hours.text = str(random.randint(1, 24))
+    #     self.ids.rating_of_panels.text = str(random.randint(1, 1000))
+    #     self.ids.panel_efficiency.text = str(random.randint(1, 99))
+    #     self.ids.battery_amps.text = str(random.randint(1, 1000))
+    #     self.ids.inverter_efficiency.text = str(random.randint(1, 100))
+    #     option_text = random.choice(["Dry Cell", "Wet Cell", "Lithium-ion"]) # ['Dry Cell', 'Wet Cell', 'Lithium-ion'][random.randint(0, 2)]
+    #     self.ids.battery_type.text = option_text
+    #     self.ids.battery_type_text.text = option_text
+    #     self.ids.battery_type_text.text_color = (0,0,1,.41)
+    #     self.ids.loading_spinner.active = False
         
 
 
