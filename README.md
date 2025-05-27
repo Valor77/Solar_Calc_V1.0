@@ -1,0 +1,1 @@
+This is basically a system design appilication for solar bassed system. It's capable of estimating full system components to be used from ratings to placement, the main read me file will be ready soon. It's all still a work in progess but it's close.
